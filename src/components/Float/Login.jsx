@@ -108,69 +108,70 @@ const Login = () => {
 
         let tempUrl = url.replace('bolt://', 'http://').replace('7687', '7474');
         let versionRecord;
-        try{
-            versionRecord = await session.run('CALL dbms.components() YIELD versions RETURN versions[0] AS version')
-        }catch (error) {
-            console.log(error);
-            if (error.message.includes('authentication failure')) {
-                setLoginEnabled(true);
-                setLoginRunning(false);
+        // try{
+        //     versionRecord = await session.run('CALL dbms.components() YIELD versions RETURN versions[0] AS version')
+        // }catch (error) {
+        //     console.log(error);
+        //     if (error.message.includes('authentication failure')) {
+        //         setLoginEnabled(true);
+        //         setLoginRunning(false);
 
-                pwf.attr(
-                    'data-original-title',
-                    'Invalid username or password'
-                )
-                    .tooltip('fixTitle')
-                    .tooltip('show');
-            } else if (error.message.includes('too many times in a row')) {
-                setLoginRunning(false);
+        //         pwf.attr(
+        //             'data-original-title',
+        //             'Invalid username or password'
+        //         )
+        //             .tooltip('fixTitle')
+        //             .tooltip('show');
+        //     } else if (error.message.includes('too many times in a row')) {
+        //         setLoginRunning(false);
 
-                pwf.attr(
-                    'data-original-title',
-                    'Too many wrong authentication attempts. Please wait'
-                )
-                    .tooltip('fixTitle')
-                    .tooltip('show');
+        //         pwf.attr(
+        //             'data-original-title',
+        //             'Too many wrong authentication attempts. Please wait'
+        //         )
+        //             .tooltip('fixTitle')
+        //             .tooltip('show');
 
-                setTimeout(() => {
-                    setLoginEnabled(true);
-                    pwf.tooltip('hide');
-                }, 5000);
-            } else if (
-                error.message.includes('WebSocket connection failure')
-            ) {
-                icon.toggle('true');
-                icon.removeClass();
-                icon.addClass(
-                    'fa fa-times-circle red-icon-color form-control-feedback'
-                );
-                icon.attr('data-original-title', 'No database found')
-                    .tooltip('fixTitle')
-                    .tooltip('show');
-                setLoginEnabled(false);
-                setLoginRunning(false);
-            } else if (
-                error.message.includes(
-                    'The credentials you provided were valid'
-                )
-            ) {
-                pwf.attr(
-                    'data-original-title',
-                    'Credentials need to be changed from the neo4j browser first. Go to {} and change them.'.format(
-                        tempUrl
-                    )
-                )
-                    .tooltip('fixTitle')
-                    .tooltip('show');
+        //         setTimeout(() => {
+        //             setLoginEnabled(true);
+        //             pwf.tooltip('hide');
+        //         }, 5000);
+        //     } else if (
+        //         error.message.includes('WebSocket connection failure')
+        //     ) {
+        //         icon.toggle('true');
+        //         icon.removeClass();
+        //         icon.addClass(
+        //             'fa fa-times-circle red-icon-color form-control-feedback'
+        //         );
+        //         icon.attr('data-original-title', 'No database found')
+        //             .tooltip('fixTitle')
+        //             .tooltip('show');
+        //         setLoginEnabled(false);
+        //         setLoginRunning(false);
+        //     } else if (
+        //         error.message.includes(
+        //             'The credentials you provided were valid'
+        //         )
+        //     ) {
+        //         pwf.attr(
+        //             'data-original-title',
+        //             'Credentials need to be changed from the neo4j browser first. Go to {} and change them.'.format(
+        //                 tempUrl
+        //             )
+        //         )
+        //             .tooltip('fixTitle')
+        //             .tooltip('show');
 
-                setLoginEnabled(true);
-                setLoginRunning(false);
-            }
+        //         setLoginEnabled(true);
+        //         setLoginRunning(false);
+        //     }
 
-            return
-        }
+        //     return
+        // }
 
-        let version = versionRecord.records[0].get('version')
+        // let version = versionRecord.records[0].get('version')
+        let version = '4.4.0';
         if (!semver.gte(version, '4.4.0')){
             setLoginEnabled(false);
             setLoginRunning(false);
